@@ -888,7 +888,7 @@
             </div>
 
             <div class="section">
-                <div class="section-title">选择提供方 (86)</div>
+                <div class="section-title">选择提供方 (<span id="providerCount"></span>)</div>
                 <div class="provider-list" id="providerList"></div>
             </div>
 
@@ -944,6 +944,38 @@
                     </div>
                     <button class="btn btn-secondary btn-sm" onclick="resetStats()" style="width: 100%; margin-top: 8px;">重置统计</button>
                 </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📌 免费 API 申请指南</div>
+                <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.6;">
+                    <div style="margin-bottom: 12px; padding: 8px; background: var(--bg-secondary); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text); margin-bottom: 6px;">🌐 国际免费 API</div>
+                        <div style="margin-bottom: 4px;"><a href="https://ai.google.dev/" target="_blank" style="color: #1a73e8;">Google Gemini</a> - 1500请求/天，无信用卡</div>
+                        <div style="margin-bottom: 4px;"><a href="https://console.groq.com/" target="_blank" style="color: #1a73e8;">Groq</a> - Llama/Mixtral，30请求/分</div>
+                        <div style="margin-bottom: 4px;"><a href="https://openrouter.ai/" target="_blank" style="color: #1a73e8;">OpenRouter</a> - 多模型聚合，含免费模型</div>
+                        <div style="margin-bottom: 4px;"><a href="https://console.mistral.ai/" target="_blank" style="color: #1a73e8;">Mistral</a> - 10亿tokens/月（限速）</div>
+                        <div style="margin-bottom: 4px;"><a href="https://cohere.com/" target="_blank" style="color: #1a73e8;">Cohere</a> - Command R+，1000请求/月</div>
+                        <div style="margin-bottom: 4px;"><a href="https://huggingface.co/inference-api" target="_blank" style="color: #1a73e8;">HuggingFace</a> - 10万+模型，1000请求/天</div>
+                        <div style="margin-bottom: 4px;"><a href="https://together.ai/" target="_blank" style="color: #1a73e8;">Together AI</a> - $1免费额度</div>
+                    </div>
+                    <div style="margin-bottom: 12px; padding: 8px; background: var(--bg-secondary); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text); margin-bottom: 6px;">🇨🇳 国内免费 API</div>
+                        <div style="margin-bottom: 4px;"><a href="https://www.siliconflow.cn/" target="_blank" style="color: #1a73e8;">硅基流动 SiliconFlow</a> - 注册送额度</div>
+                        <div style="margin-bottom: 4px;"><a href="https://bigmodel.cn/" target="_blank" style="color: #1a73e8;">智谱 GLM</a> - 注册送Token</div>
+                        <div style="margin-bottom: 4px;"><a href="https://www.coze.cn/" target="_blank" style="color: #1a73e8;">字节 Coze</a> - 豆包模型免费用</div>
+                        <div style="margin-bottom: 4px;"><a href="https://www.minimaxi.com/" target="_blank" style="color: #1a73e8;">MiniMax</a> - 注册送1000积分</div>
+                        <div style="margin-bottom: 4px;"><a href="https://xinghuo.xfyun.cn/" target="_blank" style="color: #1a73e8;">讯飞星火</a> - spark-lite 免费用</div>
+                        <div style="margin-bottom: 4px;"><a href="https://console.bailian.cn/" target="_blank" style="color: #1a73e8;">阿里云百炼</a> - 通义千问有免费额度</div>
+                    </div>
+                    <div style="padding: 8px; background: var(--bg-secondary); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text); margin-bottom: 6px;">🔑 第三方聚合（国内友好）</div>
+                        <div style="margin-bottom: 4px;"><a href="https://poloai.top/" target="_blank" style="color: #1a73e8;">PoloAI</a> - 支持微信/支付宝</div>
+                        <div style="margin-bottom: 4px;"><a href="https://uniapi.ai/" target="_blank" style="color: #1a73e8;">UniAPI</a> - 多模型统一接口</div>
+                        <div style="margin-bottom: 4px;"><a href="https://www.openai-hub.cn/" target="_blank" style="color: #1a73e8;">OpenAI Hub</a> - 国内镜像站</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="openApiGuideModal()" style="width: 100%; margin-top: 12px;">📖 详细申请教程</button>
             </div>
 
             <div class="section" style="flex:1; border-bottom:none;">
@@ -1169,6 +1201,162 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="apiGuideModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <div class="modal-title">📖 免费 API 申请详细教程</div>
+                <button class="modal-close" onclick="closeApiGuideModal()">×</button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                <div class="tabs" style="margin-bottom: 16px;">
+                    <button class="tab active" onclick="switchApiTab('google', this)">Google Gemini</button>
+                    <button class="tab" onclick="switchApiTab('groq', this)">Groq</button>
+                    <button class="tab" onclick="switchApiTab('openrouter', this)">OpenRouter</button>
+                    <button class="tab" onclick="switchApiTab('mistral', this)">Mistral</button>
+                    <button class="tab" onclick="switchApiTab('cohere', this)">Cohere</button>
+                    <button class="tab" onclick="switchApiTab('domestic', this)">国内平台</button>
+                </div>
+                
+                <div id="apiGuide-google">
+                    <h4 style="margin-bottom: 12px;">Google Gemini API - 推荐新手</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 12px;"><strong>特点：</strong>免费额度最慷慨，每天1500次请求，无需信用卡</p>
+                        <p style="margin-bottom: 12px;"><strong>获取步骤：</strong></p>
+                        <ol style="padding-left: 20px; margin-bottom: 12px;">
+                            <li>访问 <a href="https://aistudio.google.com/" target="_blank" style="color: #1a73e8;">Google AI Studio</a></li>
+                            <li>使用 Google 账号登录</li>
+                            <li>点击左侧菜单 "Get API key"</li>
+                            <li>点击 "Create API key" 创建新密钥</li>
+                            <li>复制 API Key 并在左侧配置</li>
+                        </ol>
+                        <p style="margin-bottom: 12px;"><strong>API 格式：</strong></p>
+                        <pre style="background: var(--bg-secondary); padding: 12px; border-radius: 6px; overflow-x: auto; margin-bottom: 12px;">Base URL: https://generativelanguage.googleapis.com
+Model: gemini-1.5-flash, gemini-2.0-flash, gemini-1.5-pro</pre>
+                        <p><strong>免费额度：</strong> 1500请求/天，100万tokens/分钟</p>
+                    </div>
+                </div>
+                
+                <div id="apiGuide-groq" style="display: none;">
+                    <h4 style="margin-bottom: 12px;">Groq API - 速度最快</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 12px;"><strong>特点：</strong>响应速度极快，支持Llama 3.3 70B</p>
+                        <p style="margin-bottom: 12px;"><strong>获取步骤：</strong></p>
+                        <ol style="padding-left: 20px; margin-bottom: 12px;">
+                            <li>访问 <a href="https://console.groq.com/" target="_blank" style="color: #1a73e8;">Groq Console</a></li>
+                            <li>使用 GitHub 或 Google 账号登录</li>
+                            <li>进入 API Keys 页面</li>
+                            <li>点击 "Create API Key" 创建</li>
+                            <li>复制并配置到左侧</li>
+                        </ol>
+                        <p style="margin-bottom: 12px;"><strong>API 格式：</strong></p>
+                        <pre style="background: var(--bg-secondary); padding: 12px; border-radius: 6px; overflow-x: auto; margin-bottom: 12px;">Base URL: https://api.groq.com/openai/v1
+Model: llama-3.3-70b-versatile, mixtral-8x7b-32768, gemma-2-9b-it</pre>
+                        <p><strong>免费额度：</strong> 30请求/分钟，14400请求/天</p>
+                    </div>
+                </div>
+                
+                <div id="apiGuide-openrouter" style="display: none;">
+                    <h4 style="margin-bottom: 12px;">OpenRouter - 模型最全</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 12px;"><strong>特点：</strong>聚合100+模型，统一接口，含多个免费模型</p>
+                        <p style="margin-bottom: 12px;"><strong>获取步骤：</strong></p>
+                        <ol style="padding-left: 20px; margin-bottom: 12px;">
+                            <li>访问 <a href="https://openrouter.ai/" target="_blank" style="color: #1a73e8;">OpenRouter</a></li>
+                            <li>使用 GitHub 或 Google 登录</li>
+                            <li>在 Models 页面选择免费模型</li>
+                            <li>进入 API Keys 创建密钥</li>
+                            <li>复制并配置</li>
+                        </ol>
+                        <p style="margin-bottom: 12px;"><strong>免费模型：</strong></p>
+                        <pre style="background: var(--bg-secondary); padding: 12px; border-radius: 6px; overflow-x: auto; margin-bottom: 12px;">meta-llama/llama-3.1-8b-instruct:free
+mistralai/mistral-7b-instruct:free
+google/gemma-2-9b-it:free
+cognitivecomputations/dolphin3.0-r1-mistral-24b:free</pre>
+                        <p><strong>免费额度：</strong> 每天50次请求（免费模型）</p>
+                    </div>
+                </div>
+                
+                <div id="apiGuide-mistral" style="display: none;">
+                    <h4 style="margin-bottom: 12px;">Mistral API - 欧洲合规</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 12px;"><strong>特点：</strong>每月10亿tokens，GDPR合规</p>
+                        <p style="margin-bottom: 12px;"><strong>获取步骤：</strong></p>
+                        <ol style="padding-left: 20px; margin-bottom: 12px;">
+                            <li>访问 <a href="https://console.mistral.ai/" target="_blank" style="color: #1a73e8;">Mistral Console</a></li>
+                            <li>注册账号（需手机验证）</li>
+                            <li>进入 API Keys 创建</li>
+                            <li>复制并配置</li>
+                        </ol>
+                        <p style="margin-bottom: 12px;"><strong>API 格式：</strong></p>
+                        <pre style="background: var(--bg-secondary); padding: 12px; border-radius: 6px; overflow-x: auto; margin-bottom: 12px;">Base URL: https://api.mistral.ai/v1
+Model: mistral-large-latest, mistral-small, codestral</pre>
+                        <p><strong>免费额度：</strong> 10亿tokens/月（限速1请求/秒）</p>
+                    </div>
+                </div>
+                
+                <div id="apiGuide-cohere" style="display: none;">
+                    <h4 style="margin-bottom: 12px;">Cohere API - RAG最强</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 12px;"><strong>特点：</strong>RAG应用首选，Command R+性能强大</p>
+                        <p style="margin-bottom: 12px;"><strong>获取步骤：</strong></p>
+                        <ol style="padding-left: 20px; margin-bottom: 12px;">
+                            <li>访问 <a href="https://cohere.com/" target="_blank" style="color: #1a73e8;">Cohere</a></li>
+                            <li>注册账号</li>
+                            <li>进入 Dashboard > API Keys</li>
+                            <li>创建并复制 Key</li>
+                        </ol>
+                        <p style="margin-bottom: 12px;"><strong>API 格式：</strong></p>
+                        <pre style="background: var(--bg-secondary); padding: 12px; border-radius: 6px; overflow-x: auto; margin-bottom: 12px;">Base URL: https://api.cohere.ai/v1
+Model: command-r-plus, command-r, command</pre>
+                        <p><strong>免费额度：</strong> 1000请求/月</p>
+                    </div>
+                </div>
+                
+                <div id="apiGuide-domestic" style="display: none;">
+                    <h4 style="margin-bottom: 12px;">🇨🇳 国内平台申请指南</h4>
+                    <div style="font-size: 12px; line-height: 1.8;">
+                        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>硅基流动 SiliconFlow</strong> - 推荐
+                            <p style="margin-top: 8px;">注册送Token，支持微信支付</p>
+                            <p>网址: <a href="https://www.siliconflow.cn/" target="_blank" style="color: #1a73e8;">www.siliconflow.cn</a></p>
+                            <p>API格式兼容OpenAI，只需修改baseURL</p>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>智谱 AI (GLM)</strong>
+                            <p style="margin-top: 8px;">注册送Token，模型丰富</p>
+                            <p>网址: <a href="https://bigmodel.cn/" target="_blank" style="color: #1a73e8;">bigmodel.cn</a></p>
+                            <p>API URL: https://open.bigmodel.cn/api/paas/v4</p>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>字节 Coze</strong>
+                            <p style="margin-top: 8px;">豆包模型免费使用</p>
+                            <p>网址: <a href="https://www.coze.cn/" target="_blank" style="color: #1a73e8;">www.coze.cn</a></p>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>MiniMax</strong>
+                            <p style="margin-top: 8px;">注册送1000积分，语音和视频能力</p>
+                            <p>网址: <a href="https://www.minimaxi.com/" target="_blank" style="color: #1a73e8;">www.minimaxi.com</a></p>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>讯飞星火</strong>
+                            <p style="margin-top: 8px;">spark-lite 完全免费</p>
+                            <p>网址: <a href="https://xinghuo.xfyun.cn/" target="_blank" style="color: #1a73e8;">xinghuo.xfyun.cn</a></p>
+                            <p>API URL: https://spark-api.xf-yun.com/v4.0/chat</p>
+                        </div>
+                        <div style="padding: 12px; background: var(--bg-secondary); border-radius: 6px;">
+                            <strong>阿里云百炼</strong>
+                            <p style="margin-top: 8px;">通义千问有免费额度</p>
+                            <p>网址: <a href="https://console.bailian.cn/" target="_blank" style="color: #1a73e8;">console.bailian.cn</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeApiGuideModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="settingsModal">
         <div class="modal">
             <div class="modal-header">
@@ -1263,29 +1451,30 @@
                 noKeyRequired: true,
                 poweredBy: 'Pollinations'
             },
-            { id: 'openai', name: 'OpenAI', type: 'official', icon: 'O', models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'o1', 'o1-mini', 'o1-preview', 'gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo'], defaultModel: 'gpt-4o' },
-            { id: 'anthropic', name: 'Anthropic', type: 'official', icon: 'A', models: ['claude-3-5-sonnet-20241022', 'claude-3-5-haiku-20241022', 'claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'], defaultModel: 'claude-3-5-sonnet-20241022' },
-            { id: 'google', name: 'Google AI', type: 'official', icon: 'G', models: ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro', 'gemini-1.0-pro-vision', 'gemini-2.0-flash', 'gemini-exp-1206'], defaultModel: 'gemini-1.5-pro' },
+            { id: 'openai', name: 'OpenAI', type: 'official', icon: 'O', models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'o1', 'o1-mini', 'o1-preview', 'gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo'], defaultModel: 'gpt-4o', apiUrl: 'https://api.openai.com/v1' },
+            { id: 'anthropic', name: 'Anthropic', type: 'official', icon: 'A', models: ['claude-3-5-sonnet-20241022', 'claude-3-5-haiku-20241022', 'claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'], defaultModel: 'claude-3-5-sonnet-20241022', apiUrl: 'https://api.anthropic.com/v1' },
+            { id: 'google', name: 'Google AI (Gemini)', type: 'free', icon: 'G', models: ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.0-pro'], defaultModel: 'gemini-1.5-flash', apiUrl: 'https://generativelanguage.googleapis.com/v1beta', freeTier: '1500请求/天，无需信用卡', docsUrl: 'https://aistudio.google.com/' },
             { id: 'azure', name: 'Azure OpenAI', type: 'cloud', icon: 'Az', models: ['gpt-4', 'gpt-4o', 'gpt-35-turbo'], defaultModel: 'gpt-4o' },
-            { id: 'groq', name: 'Groq', type: 'fast', icon: 'Gq', models: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'gemma-2-9b-it'], defaultModel: 'llama-3.3-70b-versatile' },
-            { id: 'cohere', name: 'Cohere', type: 'official', icon: 'C', models: ['command-r-plus', 'command-r', 'command'], defaultModel: 'command-r-plus' },
-            { id: 'mistral', name: 'Mistral AI', type: 'official', icon: 'M', models: ['mistral-large-latest', 'mistral-medium', 'mistral-small', 'codestral', 'open-mixtral-8x22b', 'open-mistral-7b'], defaultModel: 'mistral-large-latest' },
-            { id: 'perplexity', name: 'Perplexity', type: 'official', icon: 'Pp', models: ['sonar-pro', 'sonar-reasoning', 'sonar', 'sonar-reasoning-pro', 'llama-3.1-sonar-small-128k-online', 'llama-3.1-sonar-large-128k-online'], defaultModel: 'sonar-pro' },
-            { id: 'deepseek', name: 'DeepSeek', type: 'official', icon: 'D', models: ['deepseek-chat', 'deepseek-reasoner', 'deepseek-coder', 'deepseek-coder-v2', 'deepseek-math'], defaultModel: 'deepseek-chat' },
-            { id: 'moonshot', name: 'Moonshot AI', type: 'official', icon: 'Mo', models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k', 'moonshot-v1-auto'], defaultModel: 'moonshot-v1-8k' },
-            { id: 'xai', name: 'xAI (Grok)', type: 'official', icon: 'x', models: ['grok-2', 'grok-2-mini', 'grok-beta', 'grok-1', 'grok-1.5'], defaultModel: 'grok-2' },
-            { id: 'together', name: 'Together AI', type: 'third', icon: 'T', models: ['meta-llama/Llama-3.3-70B-Instruct-Turbo', 'mistralai/Mixtral-8x22B-Instruct-v0.1', 'Qwen/Qwen2-72B-Instruct', 'deepseek-ai/DeepSeek-V3'], defaultModel: 'meta-llama/Llama-3.3-70B-Instruct-Turbo' },
-            { id: 'fireworks', name: 'Fireworks AI', type: 'third', icon: 'F', models: ['accounts/fireworks/models/llama-v3p3-70b-instruct', 'accounts/fireworks/models/llama-v3p1-405b-instruct', 'accounts/fireworks/models/mixtral-8x22b-instruct'], defaultModel: 'accounts/fireworks/models/llama-v3p3-70b-instruct' },
+            { id: 'groq', name: 'Groq ⚡', type: 'free', icon: 'Gq', models: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'gemma-2-9b-it'], defaultModel: 'llama-3.3-70b-versatile', apiUrl: 'https://api.groq.com/openai/v1', freeTier: '30请求/分，14400请求/天', docsUrl: 'https://console.groq.com/' },
+            { id: 'cohere', name: 'Cohere', type: 'free', icon: 'C', models: ['command-r-plus', 'command-r', 'command'], defaultModel: 'command-r-plus', apiUrl: 'https://api.cohere.ai/v1', freeTier: '1000请求/月', docsUrl: 'https://cohere.com/' },
+            { id: 'mistral', name: 'Mistral AI', type: 'free', icon: 'M', models: ['mistral-large-latest', 'mistral-small', 'codestral', 'open-mixtral-8x22b'], defaultModel: 'mistral-small', apiUrl: 'https://api.mistral.ai/v1', freeTier: '10亿tokens/月（限速）', docsUrl: 'https://console.mistral.ai/' },
+            { id: 'perplexity', name: 'Perplexity', type: 'official', icon: 'Pp', models: ['sonar-pro', 'sonar-reasoning', 'sonar', 'sonar-reasoning-pro'], defaultModel: 'sonar-pro', apiUrl: 'https://api.perplexity.ai/' },
+            { id: 'deepseek', name: 'DeepSeek', type: 'official', icon: 'D', models: ['deepseek-chat', 'deepseek-reasoner', 'deepseek-coder', 'deepseek-coder-v2'], defaultModel: 'deepseek-chat', apiUrl: 'https://api.deepseek.com/v1', freeTier: '500K tokens/天（通过OpenRouter免费）' },
+            { id: 'moonshot', name: 'Moonshot AI', type: 'official', icon: 'Mo', models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'], defaultModel: 'moonshot-v1-8k', apiUrl: 'https://api.moonshot.cn/v1' },
+            { id: 'xai', name: 'xAI (Grok)', type: 'official', icon: 'x', models: ['grok-2', 'grok-2-mini', 'grok-beta'], defaultModel: 'grok-2', apiUrl: 'https://api.x.ai/v1' },
+            { id: 'together', name: 'Together AI', type: 'free', icon: 'T', models: ['meta-llama/Llama-3.3-70B-Instruct-Turbo', 'mistralai/Mixtral-8x22B-Instruct-v0.1', 'Qwen/Qwen2-72B-Instruct'], defaultModel: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', apiUrl: 'https://api.together.xyz/v1', freeTier: '$1免费额度', docsUrl: 'https://together.ai/' },
+            { id: 'fireworks', name: 'Fireworks AI', type: 'third', icon: 'F', models: ['accounts/fireworks/models/llama-v3p3-70b-instruct', 'accounts/fireworks/models/llama-v3p1-405b-instruct'], defaultModel: 'accounts/fireworks/models/llama-v3p3-70b-instruct', apiUrl: 'https://api.fireworks.ai/inference/v1' },
             { id: 'ollama', name: 'Ollama (Local)', type: 'local', icon: 'Ol', models: ['llama3.3', 'llama3.2', 'llama3.1', 'qwen2.5', 'qwen2.5-coder', 'deepseek-coder', 'mistral', 'codellama', 'phi3', 'gemma2', 'llava'], defaultModel: 'llama3.3', apiUrl: 'http://localhost:11434/v1' },
             { id: 'lmstudio', name: 'LM Studio', type: 'local', icon: 'Ls', models: ['local-model', 'llama3', 'mistral', 'codellama', 'phi3', 'qwen'], defaultModel: 'local-model', apiUrl: 'http://localhost:1234/v1' },
-            { id: 'openrouter', name: 'OpenRouter', type: 'aggregate', icon: 'Or', models: ['openai/gpt-4o', 'anthropic/claude-3.5-sonnet', 'google/gemini-pro-1.5', 'mistralai/mistral-large', 'deepseek/deepseek-chat'], defaultModel: 'openai/gpt-4o' },
-            { id: 'zhipu', name: '智谱AI', type: 'china', icon: 'Zp', models: ['glm-4-plus', 'glm-4-9b-chat', 'glm-4-flash', 'glm-4-air', 'glm-4-airx', 'glm-4-long', 'glm-4v-plus'], defaultModel: 'glm-4-plus', apiUrl: 'https://open.bigmodel.cn/api/paas/v4' },
-            { id: 'minimax', name: 'MiniMax', type: 'china', icon: 'Mm', models: ['abab6.5s-chat', 'abab6-chat', 'abab5.5-chat', 'abab5s-chat', 'speech-02-hd', 'speech-02'], defaultModel: 'abab6.5s-chat' },
-            { id: 'tongyi', name: '阿里通义千问', type: 'china', icon: 'Ty', models: ['qwen-max-2025-01-25', 'qwen-plus', 'qwen-turbo', 'qwen-max', 'qwen-72b-chat', 'qwen-14b-chat'], defaultModel: 'qwen-max-2025-01-25' },
-            { id: 'wenxin', name: '百度文心一言', type: 'china', icon: 'Wx', models: ['ernie-4.0-turbo-8k', 'ernie-3.5-8k', 'ernie-4.0-8k', 'ernie-3.5-4k', 'ernie-bot'], defaultModel: 'ernie-4.0-turbo-8k' },
-            { id: 'doubao', name: '字节豆包', type: 'china', icon: 'Db', models: ['doubao-pro-32k', 'doubao-lite-32k', 'doubao-pro-128k', 'doubao-pro-256k', 'skylark-lite', 'skylark-pro'], defaultModel: 'doubao-pro-32k' },
-            { id: 'spark', name: '讯飞星火', type: 'china', icon: 'Sf', models: ['spark-4.0', 'spark-3.5', 'spark-3.0', 'spark-2.0', 'spark-lite'], defaultModel: 'spark-4.0', apiUrl: 'https://spark-api.xf-yun.com/v4.0/chat' },
-            { id: 'hunyuan', name: '腾讯混元', type: 'china', icon: 'Hy', models: ['hunyuan-pro', 'hunyuan-standard', 'hunyuan-lite', 'hunyuan-code'], defaultModel: 'hunyuan-pro', apiUrl: 'https://api.hunyuan.cloud.tencent.com/api/chat/completions' }
+            { id: 'openrouter', name: 'OpenRouter 🌐', type: 'free', icon: 'Or', models: ['meta-llama/llama-3.1-8b-instruct:free', 'mistralai/mistral-7b-instruct:free', 'google/gemma-2-9b-it:free', 'deepseek-ai/deepseek-v3-免费的', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o'], defaultModel: 'meta-llama/llama-3.1-8b-instruct:free', apiUrl: 'https://openrouter.ai/api/v1', freeTier: '50请求/天（免费模型）', docsUrl: 'https://openrouter.ai/', isAggregate: true },
+            { id: 'zhipu', name: '智谱AI (GLM)', type: 'china', icon: 'Zp', models: ['glm-4-plus', 'glm-4-9b-chat', 'glm-4-flash', 'glm-4-air'], defaultModel: 'glm-4-plus', apiUrl: 'https://open.bigmodel.cn/api/paas/v4', freeTier: '注册送Token', docsUrl: 'https://bigmodel.cn/' },
+            { id: 'minimax', name: 'MiniMax', type: 'china', icon: 'Mm', models: ['abab6.5s-chat', 'abab6-chat', 'abab5.5-chat'], defaultModel: 'abab6.5s-chat', apiUrl: 'https://api.minimax.chat/v1', freeTier: '注册送1000积分', docsUrl: 'https://www.minimaxi.com/' },
+            { id: 'tongyi', name: '阿里通义千问', type: 'china', icon: 'Ty', models: ['qwen-max', 'qwen-plus', 'qwen-turbo', 'qwen-72b-chat'], defaultModel: 'qwen-plus', apiUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', freeTier: '百炼平台有免费额度', docsUrl: 'https://console.bailian.cn/' },
+            { id: 'wenxin', name: '百度文心一言', type: 'china', icon: 'Wx', models: ['ernie-4.0-turbo-8k', 'ernie-3.5-8k', 'ernie-4.0-8k'], defaultModel: 'ernie-4.0-turbo-8k', apiUrl: 'https://qianfan.baidubce.com/v2/app/conversation', freeTier: '千帆平台有试用额度', docsUrl: 'https://console.bce.baidu.com/' },
+            { id: 'doubao', name: '字节豆包', type: 'china', icon: 'Db', models: ['doubao-pro-32k', 'doubao-lite-32k', 'doubao-pro-128k'], defaultModel: 'doubao-pro-32k', apiUrl: 'https://ark.cn-beijing.volces.com/api/v3', freeTier: 'Coze平台免费用', docsUrl: 'https://www.coze.cn/' },
+            { id: 'spark', name: '讯飞星火', type: 'china', icon: 'Sf', models: ['spark-4.0', 'spark-3.5', 'spark-2.0', 'spark-lite'], defaultModel: 'spark-lite', apiUrl: 'https://spark-api.xf-yun.com/v4.0/chat', freeTier: 'spark-lite完全免费', docsUrl: 'https://xinghuo.xfyun.cn/' },
+            { id: 'hunyuan', name: '腾讯混元', type: 'china', icon: 'Hy', models: ['hunyuan-pro', 'hunyuan-standard', 'hunyuan-lite'], defaultModel: 'hunyuan-lite', apiUrl: 'https://api.hunyuan.cloud.tencent.com/api/chat/completions', freeTier: 'lite版本免费用', docsUrl: 'https://cloud.tencent.com/product/hunyuan' },
+            { id: 'siliconflow', name: '硅基流动 💎', type: 'china', icon: 'Si', models: ['Qwen/Qwen2.5-72B-Instruct', 'deepseek-ai/DeepSeek-V3', 'mistralai/Mistral-7B-Instruct-v0.3'], defaultModel: 'Qwen/Qwen2.5-72B-Instruct', apiUrl: 'https://api.siliconflow.cn/v1', freeTier: '注册送Token，支持微信', docsUrl: 'https://www.siliconflow.cn/' }
         ];
 
         let currentProvider = PROVIDERS[0];
@@ -1325,6 +1514,8 @@
                 div.onclick = () => selectProvider(provider);
                 
                 const poweredBy = provider.poweredBy ? `<div style="font-size: 9px; opacity: 0.7;">Powered by ${provider.poweredBy}</div>` : '';
+                const freeTierBadge = provider.freeTier ? `<div style="font-size: 9px; color: #16a34a; margin-top: 2px;">${provider.freeTier}</div>` : '';
+                const docsLink = provider.docsUrl ? `<div style="font-size: 9px;"><a href="${provider.docsUrl}" target="_blank" style="color: #1a73e8;">申请API →</a></div>` : '';
                 
                 div.innerHTML = `
                     <div class="provider-icon">${provider.icon}</div>
@@ -1332,12 +1523,16 @@
                         <div class="provider-name">${provider.name}</div>
                         <div class="provider-desc">${provider.desc || provider.type}</div>
                         ${poweredBy}
+                        ${freeTierBadge}
+                        ${docsLink}
                     </div>
-                    ${provider.noKeyRequired ? '<span class="provider-badge">免费</span>' : ''}
+                    ${provider.noKeyRequired || provider.type === 'free' ? '<span class="provider-badge">免费</span>' : ''}
                 `;
                 
                 list.appendChild(div);
             });
+            
+            document.getElementById('providerCount').textContent = PROVIDERS.length;
         }
 
         function renderSkills() {
@@ -2316,9 +2511,33 @@
             if (e.target === e.currentTarget) closeExportModal();
         });
 
+        document.getElementById('apiGuideModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeApiGuideModal();
+        });
+
         document.getElementById('imageModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeImageModal();
         });
+
+        // ========== API Guide ==========
+        function openApiGuideModal() {
+            document.getElementById('apiGuideModal').classList.add('active');
+        }
+
+        function closeApiGuideModal() {
+            document.getElementById('apiGuideModal').classList.remove('active');
+        }
+
+        function switchApiTab(tab, btn) {
+            document.querySelectorAll('#apiGuideModal .tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const tabs = ['google', 'groq', 'openrouter', 'mistral', 'cohere', 'domestic'];
+            tabs.forEach(t => {
+                const el = document.getElementById('apiGuide-' + t);
+                if (el) el.style.display = t === tab ? 'block' : 'none';
+            });
+        }
 
         // Initialize
         loadStats();
